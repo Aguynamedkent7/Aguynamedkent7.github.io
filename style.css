@@ -329,3 +329,263 @@ input:focus, textarea:focus {
 .sponsor:hover .devicon-python-plain { color: #3776AB; }
 .sponsor:hover .devicon-typescript-plain { color: #3178C6; }
 /* Add others if you want specific colors, otherwise they default to black on white */
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-secondary {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #555;
+    color: #ccc;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: 0.3s;
+    transform: skew(-10deg);
+}
+
+.btn-secondary:hover {
+    border-color: #fff;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.timeline {
+    border-left: 4px solid #333;
+    margin-left: 1rem;
+    padding-left: 2rem;
+}
+
+.checkpoint {
+    position: relative;
+    margin-bottom: 3rem;
+}
+
+/* The "Dot" on the timeline track */
+.checkpoint::before {
+    content: '';
+    position: absolute;
+    left: -2.6rem; /* Adjust to sit on the line */
+    top: 5px;
+    width: 16px;
+    height: 16px;
+    background: var(--bg-color);
+    border: 4px solid var(--accent);
+    border-radius: 50%;
+}
+
+.year {
+    font-family: var(--font-head);
+    color: var(--accent);
+    font-size: 1.2rem;
+}
+
+/* --- SHIFT LIGHTS --- */
+.shift-lights {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+    z-index: 1000;
+    background: #111;
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: 2px solid #333;
+}
+
+.light {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #222; /* Off state */
+    transition: background 0.1s;
+    box-shadow: inset 0 0 5px #000;
+}
+
+/* These classes are added by JS when active */
+.light.green.on { background: #39ff14; box-shadow: 0 0 10px #39ff14; }
+.light.red.on   { background: #ff3b3b; box-shadow: 0 0 10px #ff3b3b; }
+.light.blue.on  { background: #00e5ff; box-shadow: 0 0 10px #00e5ff; }
+
+/* --- NITRO MODE --- */
+@keyframes speed-blur {
+    0% { filter: blur(0px); transform: scale(1); }
+    50% { filter: blur(2px) contrast(1.2); transform: scale(1.02); }
+    100% { filter: blur(0px); transform: scale(1); }
+}
+
+.nitro-boost {
+    animation: speed-blur 0.2s infinite;
+    border: 5px solid var(--accent); /* Screen flashes red */
+}
+
+/* --- HEADLIGHTS OVERLAY --- */
+.headlights-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Let clicks pass through */
+    z-index: 900;
+    /* The light beam logic is handled in JS */
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.headlights-on {
+    opacity: 1;
+    /* This creates a dark darkness everywhere EXCEPT the cursor */
+    background: radial-gradient(circle 200px at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(0, 0, 0, 0.95) 100%);
+}
+
+/* --- COCKPIT SWITCH STYLE --- */
+.cockpit-switch {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #111;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 8px;
+}
+
+.switch-label {
+    font-family: 'Russo One', sans-serif;
+    font-size: 0.7rem;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+/* The physical slider switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input { opacity: 0; width: 0; height: 0; }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #333;
+    transition: .4s;
+    transform: skew(-10deg);
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px; width: 16px;
+    left: 4px; bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider { background-color: var(--accent); }
+input:checked + .slider:before { transform: translateX(26px); }
+/* --- LAP TIMER --- */
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 2px solid #333;
+    padding-top: 1rem;
+}
+
+.lap-timer {
+    background: #000;
+    border: 1px solid #333;
+    padding: 0.5rem 1rem;
+    font-family: 'Courier New', monospace; /* Monospace for steady numbers */
+    color: var(--accent);
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.lap-timer .label {
+    color: #555;
+    font-size: 0.8rem;
+    margin-right: 10px;
+}
+
+/* --- RACING NAME GLITCH --- */
+.glitch-text {
+    position: relative;
+    font-size: 4rem; /* Adjust size as needed */
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: 4px;
+    z-index: 1;
+    /* The "Racing Lean" */
+    transform: skew(-10deg); 
+}
+
+/* The "Ghost" Layers */
+.glitch-text::before,
+.glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+}
+
+/* The Red Shift (Left) */
+.glitch-text::before {
+    color: #ff3b3b; /* Ferrari Red */
+    z-index: -1;
+    animation: glitch-red 3s infinite linear alternate-reverse;
+}
+
+/* The Blue Shift (Right) */
+.glitch-text::after {
+    color: #00e5ff; /* Cyan/Nitrous */
+    z-index: -2;
+    animation: glitch-blue 2s infinite linear alternate-reverse;
+}
+
+/* ANIMATIONS (The Jitter) */
+@keyframes glitch-red {
+    0% { clip-path: inset(0 0 0 0); transform: translate(0); }
+    20% { clip-path: inset(10% 0 60% 0); transform: translate(-2px, 2px); }
+    40% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
+    60% { clip-path: inset(30% 0 20% 0); transform: translate(-2px, 0); }
+    80% { clip-path: inset(15% 0 50% 0); transform: translate(2px, 2px); }
+    100% { clip-path: inset(60% 0 10% 0); transform: translate(0); }
+}
+
+@keyframes glitch-blue {
+    0% { clip-path: inset(0 0 0 0); transform: translate(0); }
+    25% { clip-path: inset(40% 0 30% 0); transform: translate(2px, 2px); }
+    50% { clip-path: inset(10% 0 80% 0); transform: translate(-2px, -2px); }
+    75% { clip-path: inset(5% 0 50% 0); transform: translate(2px, 0); }
+    100% { clip-path: inset(70% 0 0 0); transform: translate(-2px, 2px); }
+}
+
+/* Hover Effect: Engine Redline (Intensifies the shake) */
+.glitch-text:hover::before {
+    animation-duration: 0.5s; /* Speed up! */
+    transform: translate(-5px, 0);
+}
+.glitch-text:hover::after {
+    animation-duration: 0.3s; /* Speed up! */
+    transform: translate(5px, 0);
+}

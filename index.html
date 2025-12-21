@@ -9,17 +9,65 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
+
 <body>
 
     <div class="container">
         <header class="hero">
             <div class="badge">SEASON 2025</div>
-            <h1 class="glitch-text">Kent Vincent Butaya</h1>
+            <h1 class="glitch-text" data-text="Kent Vincent Butaya">Kent Vincent Butaya</h1>
             <h2 class="role">FULL STACK DEVELOPER</h2>
             <p class="mission">Avid Racing Fan and Arch Linux Enthusiast</p>
-            <a href="#projects" class="btn btn-primary">START ENGINE</a>
-        </header>
+            <div class="hero-buttons">
+    <a href="#projects" class="btn btn-primary">START ENGINE</a>
+    <a href="resume.pdf" download class="btn btn-secondary">RESUME <i class="devicon-devicon-plain"></i></a>
+</div>
+      </header>
+        <section class="circuit">
+    <h2 class="section-title" style="font-family: 'Russo One', sans-serif; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 2rem;">THE CIRCUIT</h2>
+    
+    <div class="timeline">
+        <div class="checkpoint">
+            <div class="year">2025</div>
+            <div class="details">
+                <h3>Freelance Developer</h3>
+                <p>Buit an efficient web app Booking system for JRJC Car Rental.</p>
+            </div>
+        </div>
 
+        <div class="checkpoint">
+            <div class="year">2023 - current</div>
+            <div class="details">
+                <h3>University</h3>
+                <p>Related Courses: Data Structures & Algorithms, Database Management,Automata Theory </p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="cockpit">
+    <h2 class="section-title" style="font-family: 'Russo One', sans-serif; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 2rem;">THE COCKPIT</h2>
+    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+        
+        <div class="card" style="text-align: center;">
+            <i class="devicon-linux-plain" style="font-size: 3rem; color: #fff; margin-bottom: 1rem;"></i>
+            <h3>OS</h3>
+            <p style="color: var(--accent);">ARCH LINUX (BTW)</p>
+        </div>
+
+        <div class="card" style="text-align: center;">
+            <i class="devicon-vscode-plain" style="font-size: 3rem; color: #fff; margin-bottom: 1rem;"></i>
+            <h3>EDITOR</h3>
+            <p style="color: var(--accent);">VS CODE / NEOVIM</p>
+        </div>
+
+        <div class="card" style="text-align: center;">
+            <i class="devicon-bash-plain" style="font-size: 3rem; color: #fff; margin-bottom: 1rem;"></i>
+            <h3>SHELL</h3>
+            <p style="color: var(--accent);">ZSH + OH-MY-ZSH</p>
+        </div>
+        
+    </div>
+</section>
         <section class="telemetry">
             <div class="stat-box">
                 <h3>JavaScript</h3>
@@ -81,6 +129,13 @@
         <div class="sponsor" title="VS Code"><i class="devicon-vscode-plain"></i></div>
     </div>
 </section>
+<section class="live-telemetry">
+    <h2 class="section-title" style="font-family: 'Russo One', sans-serif; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 2rem;">LIVE TELEMETRY</h2>
+    <div class="telemetry-container">
+        <img src="https://ghchart.rshah.org/ff3b3b/aguynamedkent7" alt="GitHub Contributions" style="width: 100%; filter: invert(1) hue-rotate(180deg);">
+        
+    </div>
+</section>
         <section id="contact" class="pit-crew">
     <h2 class="section-title">CONTACT PIT CREW</h2>
     
@@ -108,14 +163,135 @@
 </section>
 
         <footer>
-            <p>PIT CREW RADIO: <a href="mailto:you@email.com">butaya.kentvincent07@gmail.com</a></p>
-        </footer>
+    <div class="footer-content">
+        <p>PIT CREW RADIO: <a href="mailto:you@email.com">you@email.com</a></p>
+        
+        <div class="lap-timer">
+            <span class="label">CURRENT LAP:</span>
+            <span id="timer-display">00:00.000</span>
+        </div>
+    </div>
+</footer>
     </div>
 
 </body>
+
+<div id="headlights" class="headlights-overlay"></div>
+
+<div class="cockpit-switch">
+    <label class="switch-label">Night Racing</label>
+    <label class="switch">
+        <input type="checkbox" id="beam-toggle">
+        <span class="slider"></span>
+    </label>
+</div>
+<div class="shift-lights">
+    <div class="light green"></div>
+    <div class="light green"></div>
+    <div class="light green"></div>
+    <div class="light green"></div>
+    <div class="light red"></div>
+    <div class="light red"></div>
+    <div class="light red"></div>
+    <div class="light red"></div>
+    <div class="light blue"></div>
+    <div class="light blue"></div>
+</div>
 <script>
     const startBtn = document.querySelector('.btn-primary');
+    // --- LAP TIMER LOGIC ---
+const timerDisplay = document.getElementById('timer-display');
+const startTime = Date.now();
+
+function updateTimer() {
+    const now = Date.now();
+    const diff = now - startTime;
+
+    // Calculate Minutes, Seconds, Milliseconds
+    const min = Math.floor(diff / 60000);
+    const sec = Math.floor((diff % 60000) / 1000);
+    const ms = Math.floor((diff % 1000));
+
+    // Format with leading zeros (e.g., 05:09.045)
+    const formattedMin = min.toString().padStart(2, '0');
+    const formattedSec = sec.toString().padStart(2, '0');
+    const formattedMs = ms.toString().padStart(3, '0');
+
+    timerDisplay.innerText = `${formattedMin}:${formattedSec}.${formattedMs}`;
     
+    requestAnimationFrame(updateTimer);
+}
+
+// Start the engine
+requestAnimationFrame(updateTimer);
+    // --- HEADLIGHTS LOGIC ---
+const beamToggle = document.getElementById('beam-toggle');
+const overlay = document.getElementById('headlights');
+
+// 1. Toggle the lights
+beamToggle.addEventListener('change', () => {
+    if (beamToggle.checked) {
+        overlay.classList.add('headlights-on');
+    } else {
+        overlay.classList.remove('headlights-on');
+    }
+});
+
+// 2. Move the lights with the mouse
+document.addEventListener('mousemove', (e) => {
+    if (beamToggle.checked) {
+        const x = e.clientX;
+        const y = e.clientY;
+        // Update CSS variables for the gradient center
+        overlay.style.setProperty('--x', x + 'px');
+        overlay.style.setProperty('--y', y + 'px');
+    }
+});
+    // --- NITRO SECRET CODE ---
+let keySequence = [];
+const secretCode = 'nitro';
+
+window.addEventListener('keyup', (e) => {
+    keySequence.push(e.key);
+    keySequence.splice(-secretCode.length - 1, keySequence.length - secretCode.length);
+    
+    if (keySequence.join('').includes(secretCode)) {
+        // Activate Nitro
+        document.body.classList.add('nitro-boost');
+        alert("⚠ NITROUS OXIDE SYSTEM ENGAGED ⚠");
+        
+        // Turn it off after 3 seconds
+        setTimeout(() => {
+            document.body.classList.remove('nitro-boost');
+        }, 3000);
+    }
+});
+    // --- IDLE ENGINE HANDLER ---
+                let docTitle = document.title;
+                window.addEventListener("blur", () => {
+                    document.title = "⚠ Come Back";
+                });
+                window.addEventListener("focus", () => {
+                    document.title = docTitle;
+                });
+
+    // --- SHIFT LIGHTS LOGIC ---
+window.addEventListener('scroll', () => {
+    const lights = document.querySelectorAll('.light');
+    const totalHeight = document.body.scrollHeight - window.innerHeight;
+    const progress = (window.scrollY / totalHeight);
+    
+    // Calculate how many lights should be on (0 to 10)
+    const lightsOn = Math.floor(progress * lights.length);
+
+    lights.forEach((light, index) => {
+        if (index < lightsOn) {
+            light.classList.add('on');
+        } else {
+            light.classList.remove('on');
+        }
+    });
+});
     startBtn.addEventListener('click', function(e) {
         e.preventDefault(); 
         
@@ -155,6 +331,7 @@
                 return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
             }
 
+            
             // 4. The Loop
             function animation(currentTime) {
                 if (startTime === null) startTime = currentTime;
