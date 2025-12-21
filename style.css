@@ -1,0 +1,331 @@
+:root {
+    --bg-color: #0d0d0d;       /* Tarmac Black */
+    --card-bg: #1a1a1a;        /* Carbon Gray */
+    --text-main: #f0f0f0;      /* White Text */
+    --accent: #ff3b3b;         /* Ferrari Red - Change this to Blue/Yellow if you prefer */
+    --font-head: 'Russo One', sans-serif;
+    --font-body: 'Exo 2', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* HERO SECTION */
+.hero {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 4px solid var(--accent); /* Racing stripe on left */
+    padding-left: 2rem;
+    margin-bottom: 4rem;
+}
+
+.badge {
+    background: var(--accent);
+    color: black;
+    padding: 2px 10px;
+    font-weight: bold;
+    width: fit-content;
+    transform: skew(-15deg); /* Slants the box for speed */
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-family: var(--font-head);
+    font-size: 4rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.role {
+    color: #888;
+    margin-top: 0;
+    font-style: italic;
+}
+
+/* BUTTONS */
+.btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: transparent;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 2rem;
+    transition: 0.3s;
+    text-transform: uppercase;
+    width: fit-content;
+}
+
+.btn:hover {
+    background: var(--accent);
+    color: white;
+    transform: skew(-10deg); /* Button leans forward on hover */
+}
+
+/* TELEMETRY (SKILLS) */
+.telemetry {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 4px; /* Slight rounding */
+    margin-bottom: 4rem;
+    border-top: 2px solid var(--accent);
+}
+
+.progress-bar {
+    background: #333;
+    height: 10px;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.fill {
+    background: var(--accent);
+    height: 100%;
+}
+
+/* PROJECTS GRID */
+.section-title {
+    font-family: var(--font-head);
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 2rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border: 1px solid #333;
+    transition: 0.3s;
+}
+
+.card:hover {
+    border-color: var(--accent);
+    transform: translateY(-5px);
+}
+
+.specs {
+    color: var(--accent);
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+.link {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    display: block;
+    margin-top: 1rem;
+}
+
+/* --- ENGINE START ANIMATION --- */
+
+@keyframes engine-rumble {
+    0% { transform: translate(0, 0) skew(-10deg); }
+    20% { transform: translate(-2px, 2px) skew(-10deg); }
+    40% { transform: translate(-2px, -2px) skew(-10deg); }
+    60% { transform: translate(2px, 2px) skew(-10deg); }
+    80% { transform: translate(2px, -2px) skew(-10deg); }
+    100% { transform: translate(0, 0) skew(-10deg); }
+}
+
+@keyframes engine-glow {
+    0% { box-shadow: 0 0 5px var(--accent); }
+    50% { box-shadow: 0 0 20px var(--accent), 0 0 40px var(--accent); }
+    100% { box-shadow: 0 0 5px var(--accent); }
+}
+
+.btn-primary:hover {
+    /* Runs the rumble animation repeatedly */
+    animation: engine-rumble 0.3s infinite, engine-glow 1.5s infinite alternate;
+    background: var(--accent);
+    color: #000; /* High contrast text on hover */
+    border-color: var(--accent);
+    cursor: pointer;
+}
+
+/* --- PIT CREW FORM STYLING --- */
+
+.pit-crew {
+    margin-bottom: 4rem;
+}
+
+.form-container {
+    background: var(--card-bg); /* Carbon Gray */
+    padding: 2rem;
+    border-left: 4px solid var(--accent);
+    max-width: 600px;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    font-family: var(--font-head);
+    color: #888;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+input, textarea {
+    width: 100%;
+    background: #0d0d0d; /* Darker than card bg */
+    border: 1px solid #333;
+    color: white;
+    padding: 1rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    outline: none; /* Removes default browser glow */
+    transition: 0.3s;
+    /* Box-sizing ensures padding doesn't break layout */
+    box-sizing: border-box; 
+}
+
+/* When you click inside the box */
+input:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(255, 59, 59, 0.2); /* Subtle glow matching accent */
+}
+
+/* Specific button style for the form */
+.btn-submit {
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+}
+/* --- THE GARAGE --- */
+.garage {
+    margin-bottom: 4rem;
+}
+
+.sponsor-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: flex-start;
+}
+
+.sponsor {
+    background: #1a1a1a;
+    color: #555; /* Dimmed out initially */
+    padding: 0.8rem 1.5rem;
+    font-family: var(--font-head);
+    font-weight: bold;
+    border: 1px solid #333;
+    transform: skew(-15deg); /* Racing slant */
+    transition: 0.3s;
+    cursor: default;
+    user-select: none;
+}
+
+/* Hover effect: Lights up like a neon sign */
+.sponsor:hover {
+    color: #fff;
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 15px var(--accent);
+    transform: skew(-15deg) translateY(-3px);
+}
+
+/* --- WHEELSPIN ANIMATION --- */
+@keyframes shake-hard {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+/* We toggle this class with JavaScript */
+.wheelspin-active {
+    animation: shake-hard 0.1s infinite; /* Runs very fast */
+    background: white !important; /* Flash white like smoke/heat */
+    color: black !important;
+    border-color: white !important;
+    box-shadow: 0 0 20px white, 0 0 40px var(--accent);
+}
+
+.card:hover {
+    border-color: var(--accent);
+    transform: translateY(-5px) skew(-2deg); /* Adds a slight speed lean */
+    box-shadow: -5px 5px 0px rgba(255, 59, 59, 0.2); /* "Afterimage" effect */
+}
+
+/* --- THE GARAGE (ICONS) --- */
+.garage {
+    margin-bottom: 4rem;
+}
+
+.sponsor-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: flex-start;
+}
+
+.sponsor {
+    background: #1a1a1a;
+    color: #444; /* Dark gray "off" state */
+    font-size: 3rem; /* Big icons */
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #333;
+    transform: skew(-15deg); /* Racing slant */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy spring effect */
+    cursor: default;
+}
+
+/* Un-skew the icon inside so it doesn't look distorted */
+.sponsor i {
+    transform: skew(15deg); 
+}
+
+/* Hover Effect: Lights up and lifts off */
+.sponsor:hover {
+    background: #fff; /* White decal background */
+    color: #000;      /* Icon becomes dark/colored */
+    border-color: var(--accent);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5), 0 0 15px var(--accent);
+    transform: skew(-15deg) translateY(-10px) scale(1.1);
+    z-index: 10;
+}
+
+/* Optional: Restore brand colors on hover if you prefer colored icons */
+.sponsor:hover .devicon-react-original { color: #61DAFB; }
+.sponsor:hover .devicon-java-plain { color: #007396; }
+.sponsor:hover .devicon-python-plain { color: #3776AB; }
+.sponsor:hover .devicon-typescript-plain { color: #3178C6; }
+/* Add others if you want specific colors, otherwise they default to black on white */

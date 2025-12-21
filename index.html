@@ -1,7 +1,177 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kent Vincent Butaya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&family=Russo+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
 <body>
-    <h1>Portfolio Loading...</h1>
-    <p>This site is hosted on GitHub Pages!</p>
+
+    <div class="container">
+        <header class="hero">
+            <div class="badge">SEASON 2025</div>
+            <h1 class="glitch-text">Kent Vincent Butaya</h1>
+            <h2 class="role">FULL STACK DEVELOPER</h2>
+            <p class="mission">Avid Racing Fan and Arch Linux Enthusiast</p>
+            <a href="#projects" class="btn btn-primary">START ENGINE</a>
+        </header>
+
+        <section class="telemetry">
+            <div class="stat-box">
+                <h3>JavaScript</h3>
+                <div class="progress-bar"><div class="fill" style="width: 90%"></div></div>
+            </div>
+            <div class="stat-box">
+                <h3>React / Vue</h3>
+                <div class="progress-bar"><div class="fill" style="width: 80%"></div></div>
+            </div>
+            <div class="stat-box">
+                <h3>Backend</h3>
+                <div class="progress-bar"><div class="fill" style="width: 75%"></div></div>
+            </div>
+        </section>
+
+      <section id="projects" class="track-record">
+    <h2 class="section-title" style="font-family: 'Russo One', sans-serif; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 2rem;">TRACK RECORD</h2>
+    
+    <div class="grid">
+        <div class="card">
+            <h3>JRJC RENTAL SYSTEM</h3>
+            <p class="specs">STACK: REACT, SUPABASE, POSTGRESQL</p>
+            <p>A full-throttle booking engine with real-time vehicle availability, secure auth, and instant reservation handling.</p>
+            <a href="https://github.com/seodowa/jrjc" target="_blank" class="link">VIEW TELEMETRY →</a>
+        </div>
+
+        <div class="card">
+            <h3>HAPPSAY</h3>
+            <p class="specs">STACK: TYPESCRIPT, REACT, TAILWIND</p>
+            <p>High-efficiency task management dashboard featuring dead-line tracking, archiving systems, and fluid UI.</p>
+            <a href="https://github.com/aguynamedkent7/happsay_frontend" target="_blank" class="link">VIEW TELEMETRY →</a>
+        </div>
+
+        <div class="card">
+            <h3>WORD LEADERBOARDS</h3>
+            <p class="specs">STACK: JAVA, FABRIC/FORGE API</p>
+            <p>A server-side modification for Minecraft tracking global chat metrics and player statistics in real-time.</p>
+            <a href="https://github.com/aguynamedkent7/wordleaderboards-mod" target="_blank" class="link">VIEW TELEMETRY →</a>
+        </div>
+    </div>
+</section>
+        <section class="garage">
+    <h2 class="section-title" style="font-family: 'Russo One', sans-serif; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 2rem;">THE GARAGE</h2>
+    
+    <div class="sponsor-grid">
+        <div class="sponsor" title="Java"><i class="devicon-java-plain"></i></div>
+        <div class="sponsor" title="Python"><i class="devicon-python-plain"></i></div>
+        <div class="sponsor" title="Node.js"><i class="devicon-nodejs-plain"></i></div>
+        
+        <div class="sponsor" title="React"><i class="devicon-react-original"></i></div>
+        <div class="sponsor" title="TypeScript"><i class="devicon-typescript-plain"></i></div>
+        <div class="sponsor" title="Tailwind"><i class="devicon-tailwindcss-original"></i></div>
+        
+        <div class="sponsor" title="Supabase"><i class="devicon-supabase-plain"></i></div>
+        <div class="sponsor" title="MySQL"><i class="devicon-mysql-plain"></i></div>
+        <div class="sponsor" title="MongoDB"><i class="devicon-mongodb-plain"></i></div>
+        <div class="sponsor" title="Git"><i class="devicon-git-plain"></i></div>
+        <div class="sponsor" title="Figma"><i class="devicon-figma-plain"></i></div>
+        <div class="sponsor" title="VS Code"><i class="devicon-vscode-plain"></i></div>
+    </div>
+</section>
+        <section id="contact" class="pit-crew">
+    <h2 class="section-title">CONTACT PIT CREW</h2>
+    
+    <div class="form-container">
+        <form action="https://formspree.io/f/maqwjpae" method="POST">
+            
+            <div class="input-group">
+                <label>DRIVER NAME</label>
+                <input type="text" name="name" placeholder="Enter Name" required>
+            </div>
+
+            <div class="input-group">
+                <label>FREQUENCY (EMAIL)</label>
+                <input type="email" name="email" placeholder="Enter Email" required>
+            </div>
+
+            <div class="input-group">
+                <label>MISSION BRIEF</label>
+                <textarea name="message" rows="5" placeholder="Project details..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-submit">INITIATE TRANSMISSION</button>
+        </form>
+    </div>
+</section>
+
+        <footer>
+            <p>PIT CREW RADIO: <a href="mailto:you@email.com">butaya.kentvincent07@gmail.com</a></p>
+        </footer>
+    </div>
+
 </body>
+<script>
+    const startBtn = document.querySelector('.btn-primary');
+    
+    startBtn.addEventListener('click', function(e) {
+        e.preventDefault(); 
+        
+        // --- PHASE 1: WHEELSPIN (0.8 Seconds) ---
+        // Add the shaking class
+        startBtn.classList.add('wheelspin-active');
+        
+        // Change text to show something is happening
+        const originalText = startBtn.innerText;
+        startBtn.innerText = "LAUNCHING...";
+
+        // Wait 800ms (0.8 seconds) before moving
+        setTimeout(() => {
+            
+            // --- PHASE 2: LAUNCH (The Scroll) ---
+            
+            // 1. Clean up the button
+            startBtn.classList.remove('wheelspin-active');
+            startBtn.innerText = originalText;
+
+            // 2. Setup the Physics
+            const targetSection = document.querySelector('#projects');
+            // Get accurate position
+            const targetPosition = targetSection.getBoundingClientRect().top + window.scrollY;
+            const startPosition = window.scrollY;
+            const distance = targetPosition - startPosition;
+            
+            // DURATION: 1000ms = 1 second flight time
+            const duration = 1000; 
+            let startTime = null;
+
+            // 3. The "Overshoot" Math (Ease Out Back)
+            function easeOutBack(t, b, c, d, s) {
+                // s = overshoot amount. 
+                // 1.7 is standard. 2.5 is wild drift.
+                if (s == undefined) s = 1.70158; 
+                return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
+            }
+
+            // 4. The Loop
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                
+                const run = easeOutBack(timeElapsed, startPosition, distance, duration);
+                
+                window.scrollTo(0, run);
+
+                if (timeElapsed < duration) {
+                    requestAnimationFrame(animation);
+                }
+            }
+
+            requestAnimationFrame(animation);
+
+        }, 800); // This is the wheelspin duration (in milliseconds)
+    });
+</script>
 </html>
