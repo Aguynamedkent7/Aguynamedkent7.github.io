@@ -13,7 +13,7 @@ import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 import { useEffect } from 'react';
 
-export default function CarreraGT(props: JSX.IntrinsicElements['group']) {
+export default function CarreraGT(props: React.ComponentProps<'group'>) {
   const { nodes, materials } = useGLTF('/carrera-gt/scene.gltf') as any
 
   useEffect(() => {
