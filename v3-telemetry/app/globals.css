@@ -1,0 +1,60 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --accent: #00D4FF;
+  --accent-dim: rgba(0, 212, 255, 0.2);
+  --bg-void: #000000;
+  --bg-slate: #0A0A0F;
+  --text-primary: #FFFFFF;
+  --text-muted: #9CA3AF;
+  --border-glass: rgba(255, 255, 255, 0.1);
+}
+
+body {
+  background: var(--bg-void);
+  color: var(--text-primary);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+}
+
+.glass-accent {
+  background: rgba(0, 212, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 212, 255, 0.15);
+  border-radius: 12px;
+}
+
+.glow-line {
+  box-shadow: 0 0 8px var(--accent), 0 0 2px var(--accent);
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+::selection {
+  background: rgba(0, 212, 255, 0.3);
+}
