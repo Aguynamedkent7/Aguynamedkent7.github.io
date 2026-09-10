@@ -1,10 +1,10 @@
 export type SectionId = 'home' | 'career' | 'telemetry' | 'contact';
 
 export const replaySegments: Record<SectionId, { start: number; end: number; pov: string }> = {
-  home: { start: 0, end: 28, pov: 'ONBOARD' },
-  career: { start: 45, end: 90, pov: 'CHASE' },
-  telemetry: { start: 120, end: 175, pov: 'HOOD' },
-  contact: { start: 200, end: 245, pov: 'FREE CAM' },
+  home: { start: 0, end: 34.9, pov: 'WHEEL CAM' },
+  career: { start: 35, end: 69.9, pov: 'DASH CAM' },
+  telemetry: { start: 70, end: 113.9, pov: 'WING CAM' },
+  contact: { start: 114, end: 138, pov: 'INTERIOR' },
 };
 
 export const resumeData = {

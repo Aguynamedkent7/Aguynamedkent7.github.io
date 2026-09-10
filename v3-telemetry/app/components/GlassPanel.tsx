@@ -10,7 +10,11 @@ interface GlassPanelProps {
 
 export default function GlassPanel({ children, accent = false, className = '' }: GlassPanelProps) {
   return (
-    <div className={`${accent ? 'glass-accent' : 'glass'} ${className}`}>
+    <div
+      className={`rounded-lg backdrop-blur-[2px] ${
+        accent ? 'bg-black/30 border-l-2 border-accent/50' : 'bg-black/20'
+      } ${className}`}
+    >
       {children}
     </div>
   );

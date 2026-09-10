@@ -1,12 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
-import dynamic from 'next/dynamic';
+import { useEffect, useRef, useState } from 'react';
 import { replaySegments, type SectionId } from '../data';
 
-const VIDEO_SRC = '/replay.mp4';
-
-const Showroom = dynamic(() => import('../Showroom'), { ssr: false });
+const VIDEO_SRC = '/forport.mp4';
 
 interface ReplayBackgroundProps {
   activeSection: SectionId;
@@ -14,7 +11,9 @@ interface ReplayBackgroundProps {
   onPOVChange?: (pov: string) => void;
 }
 
-type VideoState = 'loading' | 'ready' | 'scrubbing' | 'error' | 'missing';
+type VideoState = 'loading' | 'ready' | 'scrubbing' | 'missing';
+
+const SCRUB_DURATION_MS = 300;
 
 export default function ReplayBackground({
   activeSection,
@@ -23,24 +22,11 @@ export default function ReplayBackground({
 }: ReplayBackgroundProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoState, setVideoState] = useState<VideoState>('loading');
-  // showroomFallback computed inline below
+  const [loadProgress, setLoadProgress] = useState(0);
   const [devTimestamp, setDevTimestamp] = useState<string | null>(null);
-  const scrubTargetRef = useRef<number | null>(null);
+  const scrubRafRef = useRef<number>(0);
 
   const segment = replaySegments[activeSection];
-
-  const seekToSegment = useCallback(
-    (rate: number) => {
-      const v = videoRef.current;
-      if (!v || !segment) return;
-      if (rate === 1) {
-        v.currentTime = segment.start;
-      }
-      v.playbackRate = rate;
-      v.play().catch(() => {});
-    },
-    [segment],
-  );
 
   useEffect(() => {
     const v = videoRef.current;
@@ -55,19 +41,29 @@ export default function ReplayBackground({
 
     const onError = () => setVideoState('missing');
     const onCanPlay = () => {
-      if (videoState === 'loading' || videoState === 'missing') {
-        setVideoState('ready');
-      }
+      setVideoState((prev) => (prev === 'loading' || prev === 'missing' ? 'ready' : prev));
     };
+    const onProgress = () => {
+      const b = v.buffered;
+      if (b.length === 0) return;
+      const loaded = b.end(b.length - 1);
+      if (!Number.isFinite(v.duration) || v.duration === 0) return;
+      setLoadProgress(Math.min(loaded / v.duration, 1));
+    };
+    const onPlaying = () => setVideoState('ready');
 
     v.addEventListener('loadedmetadata', onLoadedMetadata);
     v.addEventListener('error', onError);
     v.addEventListener('canplay', onCanPlay);
+    v.addEventListener('progress', onProgress);
+    v.addEventListener('playing', onPlaying);
 
     return () => {
       v.removeEventListener('loadedmetadata', onLoadedMetadata);
       v.removeEventListener('error', onError);
       v.removeEventListener('canplay', onCanPlay);
+      v.removeEventListener('progress', onProgress);
+      v.removeEventListener('playing', onPlaying);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -81,38 +77,38 @@ export default function ReplayBackground({
     onPOVChange?.(segment.pov);
 
     if (v.currentTime < segment.start - 0.5 || v.currentTime > segment.end) {
+      const from = v.currentTime;
+      const to = segment.start;
+
       setVideoState('scrubbing');
       onScrubChange?.(true);
-      scrubTargetRef.current = segment.start;
-      seekToSegment(6);
+      v.pause();
+
+      const start = performance.now();
+
+      const tick = (now: number) => {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / SCRUB_DURATION_MS, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        v.currentTime = from + (to - from) * eased;
+
+        if (progress < 1) {
+          scrubRafRef.current = requestAnimationFrame(tick);
+        } else {
+          v.currentTime = to;
+          v.playbackRate = 1;
+          v.play().catch(() => {});
+          setVideoState('ready');
+          onScrubChange?.(false);
+        }
+      };
+
+      scrubRafRef.current = requestAnimationFrame(tick);
     } else {
-      seekToSegment(1);
+      v.playbackRate = 1;
+      v.play().catch(() => {});
     }
-  }, [activeSection, videoState, segment, onPOVChange, onScrubChange, seekToSegment]);
-
-  useEffect(() => {
-    if (videoState !== 'scrubbing') return;
-
-    const v = videoRef.current;
-    if (!v) return;
-
-    const onTimeUpdate = () => {
-      const target = scrubTargetRef.current;
-      if (target === null) return;
-      if (v.currentTime >= target - 0.5) {
-        v.currentTime = target;
-        v.playbackRate = 1;
-        v.play().catch(() => {});
-        setVideoState('ready');
-        onScrubChange?.(false);
-        scrubTargetRef.current = null;
-        v.removeEventListener('timeupdate', onTimeUpdate);
-      }
-    };
-
-    v.addEventListener('timeupdate', onTimeUpdate);
-    return () => v.removeEventListener('timeupdate', onTimeUpdate);
-  }, [videoState, onScrubChange]);
+  }, [activeSection]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (videoState !== 'ready') return;
@@ -131,12 +127,8 @@ export default function ReplayBackground({
   }, [videoState, segment]);
 
   useEffect(() => {
-    if (videoState !== 'loading') return;
-    const t = setTimeout(() => setVideoState('missing'), 2000);
-    return () => clearTimeout(t);
-  }, [videoState]);
-
-  const showroomFallback = videoState === 'loading' || videoState === 'missing' || videoState === 'error';
+    return () => cancelAnimationFrame(scrubRafRef.current);
+  }, []);
 
   useEffect(() => {
     if (process.env.NODE_ENV !== 'development') return;
@@ -160,6 +152,15 @@ export default function ReplayBackground({
 
   return (
     <>
+      {/* Ambient fallback — shown while loading or when the replay is missing */}
+      <div
+        className="absolute inset-0 z-0 bg-slate"
+        style={{
+          background:
+            'radial-gradient(ellipse at 70% 20%, rgba(0,212,255,0.07), transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(255,255,255,0.03), transparent 50%), #0A0A0F',
+        }}
+      />
+
       <video
         ref={videoRef}
         muted
@@ -171,17 +172,20 @@ export default function ReplayBackground({
         }`}
       />
 
-      {showroomFallback && (
-        <div className="absolute inset-0 z-0">
-          <Showroom
-            activeSection={
-              activeSection === 'career'
-                ? 'about'
-                : activeSection === 'telemetry'
-                  ? 'projects'
-                  : activeSection
-            }
-          />
+      {videoState === 'loading' && (
+        <div className="absolute inset-0 z-20 pointer-events-none flex items-end justify-center pb-20">
+          <div className="w-72 px-4 py-3 rounded-lg bg-black/60 border border-white/10 backdrop-blur-md">
+            <div className="flex items-center justify-between font-mono text-[9px] uppercase tracking-wider text-accent mb-2">
+              <span>Acquiring Replay</span>
+              <span>{Math.round(loadProgress * 100)}%</span>
+            </div>
+            <div className="h-1 rounded-full bg-white/10 overflow-hidden">
+              <div
+                className="h-full bg-accent transition-all duration-300"
+                style={{ width: `${Math.round(loadProgress * 100)}%` }}
+              />
+            </div>
+          </div>
         </div>
       )}
 

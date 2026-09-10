@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { useGLTF } from '@react-three/drei';
 import ReplayBackground from './components/ReplayBackground';
 import BroadcastHeader from './components/BroadcastHeader';
 import DriverCard from './components/DriverCard';
@@ -11,14 +10,19 @@ import ContactSection from './components/ContactSection';
 import SectionTransition from './components/SectionTransition';
 import type { SectionId } from './data';
 
-useGLTF.preload('/carrera-gt/scene.gltf');
-
 const sections = [
   { id: 'home' as SectionId, label: 'Profile' },
   { id: 'career' as SectionId, label: 'Career' },
   { id: 'telemetry' as SectionId, label: 'Telemetry' },
   { id: 'contact' as SectionId, label: 'Contact' },
 ];
+
+const sectionLayout: Record<SectionId, string> = {
+  home: 'items-center justify-start pl-6 md:pl-16 pr-auto',
+  career: 'items-end justify-center pr-6 md:pr-16 pl-auto',
+  telemetry: 'items-start justify-end pt-20 pl-auto pr-6 md:pr-16',
+  contact: 'items-start justify-center pl-6 md:pl-16 pt-20 pr-auto',
+};
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState<SectionId>('home');
@@ -35,15 +39,15 @@ export default function Portfolio() {
 
   return (
     <main className="relative w-screen h-screen overflow-hidden bg-void text-white selection:bg-accent/30">
-      {/* Replay / Showroom background */}
+      {/* Replay background */}
       <ReplayBackground
         activeSection={activeSection}
         onScrubChange={handleScrubChange}
         onPOVChange={handlePOVChange}
       />
 
-      {/* Dark overlay for legibility */}
-      <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-b from-black/70 via-black/40 to-black/70" />
+      {/* Vignette overlay — heavier on the data side for contrast */}
+      <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-b from-black/50 via-transparent to-black/50" />
 
       {/* Header */}
       <BroadcastHeader
@@ -53,9 +57,9 @@ export default function Portfolio() {
         isScrubbing={isScrubbing}
       />
 
-      {/* Content area */}
-      <div className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center p-6 md:p-16 pt-16 pb-20">
-        <div className="pointer-events-auto w-full max-w-4xl max-h-[calc(100vh-8rem)] overflow-y-auto pr-2">
+      {/* Content area — positioned per section */}
+      <div className={`absolute inset-0 z-10 pointer-events-none flex p-6 md:p-16 pt-16 pb-20 ${sectionLayout[activeSection]}`}>
+        <div className="pointer-events-auto max-h-[calc(100vh-8rem)] overflow-y-auto pr-2 w-full max-w-4xl">
           <SectionTransition activeKey={activeSection}>
             {activeSection === 'home' && <DriverCard />}
             {activeSection === 'career' && <TrackMap />}
