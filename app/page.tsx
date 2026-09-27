@@ -3,10 +3,7 @@
 import { useState } from 'react';
 import Showroom from './Showroom';
 import { resumeData } from './data';
-import { 
-  Code2, Database, Cpu, Globe, Terminal, Mail, MapPin, 
-  ExternalLink, Monitor, Box, Server
-} from 'lucide-react';
+import { Code2, Cpu, Terminal, Mail, MapPin, ExternalLink, Monitor } from 'lucide-react';
 import { useGLTF } from '@react-three/drei';
 
 // Preload the model at the module level
@@ -20,15 +17,6 @@ export default function Portfolio() {
     if (n.includes('arch') || n.includes('next')) return <Monitor className="w-5 h-5" />;
     if (n.includes('supabase') || n.includes('simd') || n.includes('c++')) return <Cpu className="w-5 h-5" />;
     return <Code2 className="w-5 h-5" />;
-  };
-
-  const getProjectIcon = (iconName: string) => {
-    switch (iconName) {
-      case 'database': return <Database className="w-6 h-6" />;
-      case 'cpu': return <Server className="w-6 h-6" />;
-      case 'globe': return <Globe className="w-6 h-6" />;
-      default: return <Code2 className="w-6 h-6" />;
-    }
   };
 
   return (
@@ -120,26 +108,39 @@ export default function Portfolio() {
             )}
             {/* PROJECTS */}
             {activeSection === 'projects' && (
-              <div className="animate-in fade-in slide-in-from-right duration-700 space-y-8 md:space-y-12 text-right flex flex-col items-end overflow-y-auto max-h-[60vh] md:max-h-none pr-2">
+              <div className="animate-in fade-in slide-in-from-right duration-700 text-right flex flex-col items-end">
                 <h2 className="text-4xl sm:text-5xl md:text-7xl font-black italic tracking-tighter text-yellow-500 uppercase">Projects</h2>
-                <div className="grid gap-6 md:gap-10 w-full">
-                  {resumeData.projects.map((proj, i) => (
-                    <a 
-                      key={i} href={proj.github} target="_blank" rel="noopener noreferrer"
-                      className="group flex items-start justify-end gap-4 md:gap-8 hover:translate-x-[-10px] md:hover:translate-x-[-20px] transition-transform cursor-pointer"
+                <div className="grid sm:grid-cols-2 gap-4 w-full mt-4 md:mt-6 overflow-y-auto max-h-[60vh] md:max-h-[65vh] pr-2 text-left">
+                  {resumeData.projects.map((proj) => (
+                    <div
+                      key={proj.name}
+                      className="group flex flex-col bg-zinc-900/80 backdrop-blur-md border-2 border-zinc-800 hover:border-yellow-500 transition-colors rounded-sm overflow-hidden"
                     >
-                      <div className="flex flex-col items-end">
-                        <div className="flex items-center gap-3">
-                          <ExternalLink className="w-3 h-3 md:w-4 md:h-4 text-yellow-500 opacity-0 group-hover:opacity-100 transition-all" />
-                          <h3 className="text-xl md:text-4xl font-black group-hover:text-yellow-500 transition-colors uppercase italic tracking-tighter">{proj.name}</h3>
+                      {proj.image && (
+                        <a href={proj.url ?? proj.github} target="_blank" rel="noopener noreferrer" className="block aspect-video overflow-hidden bg-zinc-950">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={proj.image} alt={`${proj.name} screenshot`} loading="lazy"
+                            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                          />
+                        </a>
+                      )}
+                      <div className="p-3 md:p-4 flex flex-col gap-1 flex-1">
+                        <h3 className="text-lg md:text-2xl font-black group-hover:text-yellow-500 transition-colors uppercase italic tracking-tighter">{proj.name}</h3>
+                        <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em]">{proj.tech}</p>
+                        <p className="text-zinc-300 text-xs md:text-sm leading-relaxed mt-1">{proj.desc}</p>
+                        <div className="flex gap-4 mt-auto pt-3 font-mono text-[10px] md:text-xs uppercase tracking-[0.2em]">
+                          {proj.url && (
+                            <a href={proj.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-yellow-500 hover:text-white">
+                              <ExternalLink className="w-3 h-3" /> Live
+                            </a>
+                          )}
+                          <a href={proj.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-400 hover:text-white">
+                            <Code2 className="w-3 h-3" /> Code
+                          </a>
                         </div>
-                        <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em] mt-1">{proj.tech}</p>
-                        <p className="text-zinc-300 text-xs md:text-sm mt-2 md:mt-3 max-w-xs md:max-w-md leading-relaxed">{proj.desc}</p>
                       </div>
-                      <div className="mt-1 p-2 md:p-4 bg-zinc-900/80 backdrop-blur-md border-2 border-zinc-800 group-hover:border-yellow-500 group-hover:text-yellow-500 transition-all rounded-sm shadow-2xl">
-                        {getProjectIcon(proj.icon)}
-                      </div>
-                    </a>
+                    </div>
                   ))}
                 </div>
               </div>
