@@ -1,40 +1,32 @@
-import type { Metadata } from "next";
-import { Russo_One, Exo_2 } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Saira_Condensed, IBM_Plex_Sans, JetBrains_Mono } from 'next/font/google';
+import './globals.css';
 
-// 1. Define the fonts here (THIS WAS MISSING)
-const russo = Russo_One({ 
-  weight: "400", 
-  subsets: ["latin"],
-  variable: "--font-russo" 
+const display = Saira_Condensed({
+  weight: ['500', '600', '700', '800'], subsets: ['latin'], variable: '--font-display',
 });
+const body = IBM_Plex_Sans({ weight: ['400', '500', '600'], subsets: ['latin'], variable: '--font-body' });
+const mono = JetBrains_Mono({ weight: ['400', '500'], subsets: ['latin'], variable: '--font-mono' });
 
-const exo = Exo_2({ 
-  subsets: ["latin"],
-  variable: "--font-exo" 
-});
+const title = 'Kent Vincent Butaya | Full-Stack Developer';
+const description =
+  'Full-stack developer and CS student in Cagayan de Oro, PH. React, Next.js, Supabase, PostgreSQL.';
 
 export const metadata: Metadata = {
-  title: "Kent Vincent Butaya | Full Stack Racer",
-  description: "CS Student, Arch Linux User, and Full Stack Developer.",
+  metadataBase: new URL('https://aguynamedkent7.github.io'),
+  title,
+  description,
+  openGraph: {
+    title, description, url: '/', type: 'website',
+    images: [{ url: '/og.png', width: 1200, height: 630 }],
+  },
+  twitter: { card: 'summary_large_image' },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <head>
-        {/* The Icon Library Link */}
-        <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
-      </head>
-      
-      {/* 2. Now these variables will work */}
-      <body className={`${russo.variable} ${exo.variable} bg-tarmac text-textMain font-body`}>
-        {children}
-      </body>
+    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }
