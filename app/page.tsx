@@ -1,179 +1,206 @@
-'use client';
+import Image from 'next/image';
+import { ArrowRight, ArrowUpRight, Download } from 'lucide-react';
+import Nav from './Nav';
+import { site, highlights, projects, experience, stack, type Project } from './content';
 
-import { useState } from 'react';
-import Showroom from './Showroom';
-import { resumeData } from './data';
-import { Code2, Cpu, Terminal, Mail, MapPin, ExternalLink, Monitor } from 'lucide-react';
-import { useGLTF } from '@react-three/drei';
-
-// Preload the model at the module level
-useGLTF.preload('/carrera-gt/scene.gltf');
-
-export default function Portfolio() {
-  const [activeSection, setActiveSection] = useState('home');
-
-  const getStackIcon = (name: string) => {
-    const n = name.toLowerCase();
-    if (n.includes('arch') || n.includes('next')) return <Monitor className="w-5 h-5" />;
-    if (n.includes('supabase') || n.includes('simd') || n.includes('c++')) return <Cpu className="w-5 h-5" />;
-    return <Code2 className="w-5 h-5" />;
-  };
-
+function GitHubIcon() {
   return (
-    <main className="relative w-screen h-screen overflow-hidden bg-zinc-950 text-white selection:bg-yellow-500/30">
-      <Showroom activeSection={activeSection} />
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+      strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 0 0-.9-2.6c3.1-.4 6.4-1.5 6.4-7a5.4 5.4 0 0 0-1.5-3.8 5 5 0 0 0-.1-3.8s-1.2-.4-3.9 1.5a13.4 13.4 0 0 0-7 0C6.3 1.3 5.1 1.7 5.1 1.7a5 5 0 0 0-.1 3.8A5.4 5.4 0 0 0 3.5 9.3c0 5.4 3.3 6.6 6.4 7a3.4 3.4 0 0 0-.9 2.6V22" />
+    </svg>
+  );
+}
 
-      {/* LEGIBILITY OVERLAY: Responsive gradients for mobile stacking */}
-      <div className={`absolute inset-0 z-0 pointer-events-none transition-opacity duration-1000 
-        ${activeSection === 'home' 
-          ? 'bg-gradient-to-b from-black/60 via-black/20 to-transparent md:bg-gradient-to-r md:from-black/80 md:via-black/20 md:to-transparent' 
-          : 'bg-gradient-to-t from-black/80 via-black/40 to-transparent md:bg-gradient-to-l md:from-black/80 md:via-black/20 md:to-transparent'}`} 
-      />
-
-      <div className="absolute inset-0 z-10 pointer-events-none flex flex-col justify-between p-6 md:p-16">
-        
-        {/* Navigation: Wraps on small screens */}
-        <header className="pointer-events-auto flex flex-wrap gap-4 md:gap-12">
-          {['home', 'about', 'projects', 'contact'].map((item) => (
-            <button
-              key={item}
-              onClick={() => setActiveSection(item)}
-              className={`font-mono uppercase tracking-[0.2em] md:tracking-[0.4em] text-xs md:text-sm transition-all duration-300 ${
-                activeSection === item ? 'text-yellow-500 border-b-2 border-yellow-500 pb-1 md:pb-2' : 'text-zinc-500 hover:text-white'
-              }`}
-            >
-              {item}
-            </button>
-          ))}
-        </header>
-
-        {/* Content Container: Switches from vertical stack to horizontal justify */}
-        <div className={`pointer-events-auto flex w-full transition-all duration-700 ease-in-out 
-          ${activeSection === 'home' ? 'justify-start items-start' : 'justify-end items-end'}`}>
-          
-          <div className="max-w-3xl w-full">
-            
-            {/* HOME */}
-            {activeSection === 'home' && (
-              <div className="animate-in fade-in slide-in-from-left duration-1000">
-                <h1 className="text-6xl sm:text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none drop-shadow-2xl">
-                  {resumeData.home.name}
-                </h1>
-                <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 mt-4">
-                  <h2 className="text-yellow-500 font-mono tracking-[0.3em] md:tracking-[0.5em] text-sm md:text-lg uppercase drop-shadow-md">
-                    {resumeData.home.role}
-                  </h2>
-                  <div className="hidden md:block w-px h-6 bg-zinc-700" />
-                  <div className="flex items-center gap-2 text-zinc-300 font-mono text-xs md:text-sm tracking-widest uppercase drop-shadow-md">
-                    <MapPin className="w-4 h-4 text-yellow-500" />
-                    {resumeData.home.location}
-                  </div>
-                </div>
-                <p className="text-zinc-400 mt-6 md:mt-10 max-w-md text-[10px] md:text-sm uppercase leading-relaxed tracking-[0.2em] md:tracking-[0.25em] font-medium drop-shadow-lg">
-                  {resumeData.home.description}
-                </p>
-              </div>
-            )}
-
-           
-
-            {/* ABOUT */}
-            {activeSection === 'about' && (
-              <div className="animate-in fade-in slide-in-from-right duration-700 text-right flex flex-col items-end">
-                <div className="flex items-center gap-4 mb-2 md:mb-4">
-                  <h2 className="text-4xl sm:text-5xl md:text-7xl font-black italic tracking-tighter text-yellow-500 uppercase">{resumeData.about.title}</h2>
-                  <Terminal className="text-white w-6 h-6 md:w-8 md:h-8" />
-                </div>
-                <h3 className="text-lg md:text-2xl font-bold text-zinc-100 tracking-tight">{resumeData.about.education}</h3>
-                <p className="text-zinc-300 mt-4 md:mt-6 max-w-xl leading-relaxed text-sm md:text-lg italic font-medium">{resumeData.about.bio}</p>
-                
-                {/* Updated Grid: grid-cols-3 for small mobile squares, moving to grid-cols-2 on tablet/desktop */}
-                <div className="grid grid-cols-3 sm:grid-cols-2 gap-2 md:gap-4 mt-8 md:mt-12 w-full max-w-lg">
-                  {resumeData.about.skills.map((skill) => (
-                    <div 
-                      key={skill} 
-                      className="flex flex-col md:flex-row items-center justify-center md:justify-end gap-2 md:gap-4 p-3 md:p-4 border-b-2 md:border-b-0 md:border-r-4 border-zinc-800 hover:border-yellow-500 bg-zinc-900/60 backdrop-blur-sm transition-all group aspect-square md:aspect-auto"
-                    >
-                      {/* Label: Hidden or micro-text on very small screens to maintain the square grid look */}
-                      <span className="text-[8px] md:text-xs font-mono uppercase tracking-tighter md:tracking-[0.2em] text-zinc-400 group-hover:text-white text-center">
-                        {skill}
-                      </span>
-                      <div className="text-zinc-500 group-hover:text-yellow-500 transition-colors">
-                        {getStackIcon(skill)}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-            {/* PROJECTS */}
-            {activeSection === 'projects' && (
-              <div className="animate-in fade-in slide-in-from-right duration-700 text-right flex flex-col items-end">
-                <h2 className="text-4xl sm:text-5xl md:text-7xl font-black italic tracking-tighter text-yellow-500 uppercase">Projects</h2>
-                <div className="grid sm:grid-cols-2 gap-4 w-full mt-4 md:mt-6 overflow-y-auto max-h-[60vh] md:max-h-[65vh] pr-2 text-left">
-                  {resumeData.projects.map((proj) => (
-                    <div
-                      key={proj.name}
-                      className="group flex flex-col bg-zinc-900/80 backdrop-blur-md border-2 border-zinc-800 hover:border-yellow-500 transition-colors rounded-sm overflow-hidden"
-                    >
-                      {proj.image && (
-                        <a href={proj.url ?? proj.github} target="_blank" rel="noopener noreferrer" className="block aspect-video overflow-hidden bg-zinc-950">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={proj.image} alt={`${proj.name} screenshot`} loading="lazy"
-                            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                          />
-                        </a>
-                      )}
-                      <div className="p-3 md:p-4 flex flex-col gap-1 flex-1">
-                        <h3 className="text-lg md:text-2xl font-black group-hover:text-yellow-500 transition-colors uppercase italic tracking-tighter">{proj.name}</h3>
-                        <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em]">{proj.tech}</p>
-                        <p className="text-zinc-300 text-xs md:text-sm leading-relaxed mt-1">{proj.desc}</p>
-                        <div className="flex gap-4 mt-auto pt-3 font-mono text-[10px] md:text-xs uppercase tracking-[0.2em]">
-                          {proj.url && (
-                            <a href={proj.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-yellow-500 hover:text-white">
-                              <ExternalLink className="w-3 h-3" /> Live
-                            </a>
-                          )}
-                          <a href={proj.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-400 hover:text-white">
-                            <Code2 className="w-3 h-3" /> Code
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* CONTACT */}
-            {activeSection === 'contact' && (
-              <div className="animate-in fade-in slide-in-from-bottom duration-700 text-right flex flex-col items-end">
-                <h2 className="text-4xl sm:text-5xl md:text-6xl font-black italic tracking-tighter text-yellow-500 uppercase">Establish Contact</h2>
-                <div className="mt-8 md:mt-12 space-y-6 md:space-y-8">
-                  <div className="flex items-center justify-end gap-4 md:gap-6 text-zinc-200 group">
-                    <span className="font-mono text-sm md:text-xl tracking-[0.1em] md:tracking-[0.2em] uppercase group-hover:text-yellow-500 transition-colors">{resumeData.home.email}</span>
-                    <div className="p-2 md:p-3 bg-zinc-900 border-2 border-zinc-800 text-yellow-500"><Mail className="w-6 h-6 md:w-8 md:h-8" /></div>
-                  </div>
-                  <div className="flex items-center justify-end gap-4 md:gap-6 text-zinc-200">
-                    <span className="font-mono text-sm md:text-xl tracking-[0.1em] md:tracking-[0.2em] uppercase">{resumeData.home.location}</span>
-                    <div className="p-2 md:p-3 bg-zinc-900 border-2 border-zinc-800 text-yellow-500"><MapPin className="w-6 h-6 md:w-8 md:h-8" /></div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Footer: Hidden or simplified on very small screens */}
-        <footer className="flex justify-between items-end pointer-events-none mt-4">
-          <div className="font-mono text-[10px] md:text-xs text-zinc-600 tracking-tighter">
-            <p className="flex items-center gap-2"><span className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse" /> SYSTEM_ONLINE</p>
-            <p className="hidden sm:block">KERN: 6.7.ARCH1-1</p>
-          </div>
-          <div className="text-zinc-900 text-4xl sm:text-6xl md:text-8xl font-black italic opacity-20 select-none uppercase tracking-tighter">Rockport</div>
-        </footer>
+function SectionHeader({ label, title, intro }: { label: string; title: string; intro?: string }) {
+  return (
+    <div className="section-header">
+      <div className="stack-14">
+        <span className="label">{label}</span>
+        <h2 className="h2">{title}</h2>
       </div>
-    </main>
+      {intro && <p className="section-intro">{intro}</p>}
+    </div>
+  );
+}
+
+function ProjectLinks({ p }: { p: Project }) {
+  if (!p.url && !p.github) return null;
+  return (
+    <div className="project-links">
+      {p.url && (
+        <a href={p.url} target="_blank" rel="noopener noreferrer" className="link-accent">
+          {new URL(p.url).host} <ArrowUpRight size={16} aria-hidden="true" />
+        </a>
+      )}
+      {p.github && (
+        <a href={p.github} target="_blank" rel="noopener noreferrer" className="link-muted">
+          Code <ArrowUpRight size={16} aria-hidden="true" />
+        </a>
+      )}
+    </div>
+  );
+}
+
+function ProjectCard({ p }: { p: Project }) {
+  const variant = p.featured ? 'featured' : p.image ? 'image' : 'text';
+  return (
+    <article className={`card project project--${variant} reveal`}>
+      {p.image && (
+        <div className="project-shot">
+          <Image src={p.image} alt={`${p.name} screenshot`} width={1200} height={750} />
+        </div>
+      )}
+      <div className="project-body">
+        <div className="project-meta">
+          <span className={p.featured ? 'pos pos--solid' : 'pos'}>{p.pos}</span>
+          <span>{p.category.toUpperCase()}</span>
+        </div>
+        <h3 className="project-title">{p.name}</h3>
+        <p className="project-text">{p.body}</p>
+        <div className="project-foot">
+          <div className="tags">
+            {p.tags.map((t) => <span key={t} className="tag">{t}</span>)}
+          </div>
+          <ProjectLinks p={p} />
+        </div>
+      </div>
+    </article>
+  );
+}
+
+export default function Home() {
+  return (
+    <>
+      <Nav />
+      <main id="top">
+        {/* HERO */}
+        <section className="hero">
+          <div className="hero-text">
+            <div className="stack-28">
+              <div className="eyebrow">
+                {site.role.toUpperCase()} / {site.location.toUpperCase()}
+              </div>
+              <h1 className="h1">Kent<br />Vincent<br />Butaya</h1>
+              <div className="subline">{site.tagline}</div>
+              <p className="intro">{site.intro}</p>
+            </div>
+            <div className="hero-actions">
+              <a href="#work" className="btn btn--solid">
+                See the work <ArrowRight size={18} aria-hidden="true" />
+              </a>
+              <a href={site.github} target="_blank" rel="noopener noreferrer" className="btn btn--outline">
+                <GitHubIcon /> GitHub
+              </a>
+            </div>
+          </div>
+
+          <div className="driver-card">
+            <div className="driver-head"><span>DRIVER CARD</span><span>2026 SEASON</span></div>
+            <div className="driver-photo">
+              <Image src="/kent.jpg" alt="Portrait of Kent Vincent Butaya" width={880} height={1320}
+                priority sizes="(max-width: 1023px) 100vw, 440px" />
+              <span className="driver-number" aria-hidden="true">{site.number}</span>
+            </div>
+            <dl className="driver-specs">
+              {[
+                ['NAME', 'Kent Vincent B. Butaya'],
+                ['TEAM', 'Open to offers'],
+                ['ENGINE', 'TypeScript, React, Next.js'],
+                ['GARAGE', 'Arch Linux'],
+              ].map(([k, v]) => (
+                <div key={k}><dt>{k}</dt><dd>{v}</dd></div>
+              ))}
+            </dl>
+          </div>
+        </section>
+
+        {/* HIGHLIGHTS */}
+        <section className="highlights" aria-label="Highlights">
+          {highlights.map((h) => (
+            <div key={h.title} className="highlight">
+              <span className={h.accent ? 'highlight-title accent' : 'highlight-title'}>{h.title}</span>
+              <span className="highlight-sub">{h.sub}</span>
+            </div>
+          ))}
+        </section>
+
+        {/* PROJECTS */}
+        <section id="work" className="section">
+          <SectionHeader label="S1 / STARTING GRID" title="Projects"
+            intro="My own products and client builds, lined up by where they'd start on the grid." />
+          <div className="project-grid">
+            {projects.map((p) => <ProjectCard key={p.pos} p={p} />)}
+          </div>
+        </section>
+
+        {/* EXPERIENCE */}
+        <section id="experience" className="section experience">
+          <div className="experience-head stack-14">
+            <span className="label">S2 / RACE HISTORY</span>
+            <h2 className="h2">Experience</h2>
+          </div>
+          <div className="experience-list">
+            {experience.map((e) => (
+              <div key={e.title} className="experience-row reveal">
+                <span className="experience-date">{e.date.toUpperCase()}</span>
+                <div className="stack-10">
+                  <h3 className="experience-title">{e.title}</h3>
+                  <p className="experience-text">{e.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* STACK */}
+        <section id="stack" className="section">
+          <SectionHeader label="S3 / SETUP SHEET" title="Tech stack"
+            intro="What I reach for, tuned over real projects rather than tutorials." />
+          <div className="stack-grid">
+            {stack.map((s, i) => (
+              <div key={s.group} className="card stack-card reveal">
+                <span className="caption">0{i + 1} / {s.group.toUpperCase()}</span>
+                <ul>{s.items.map((it) => <li key={it}>{it}</li>)}</ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* CONTACT */}
+        <section id="contact" className="card contact reveal">
+          <div className="stack-20">
+            <span className="label">PIT LANE</span>
+            <h2 className="h2 h2--contact">Contact</h2>
+            <div className="contact-sub">Need a driver for your team?</div>
+            <p className="contact-text">
+              I&apos;m looking for junior full-stack, frontend or backend roles, remote first. Happy
+              to talk about your stack.
+            </p>
+          </div>
+          <div className="contact-actions">
+            <a href={`mailto:${site.email}`} className="btn btn--solid btn--wide">
+              Email me <ArrowRight size={18} aria-hidden="true" />
+            </a>
+            <a href={site.github} target="_blank" rel="noopener noreferrer" className="btn btn--outline btn--wide">
+              github.com/Aguynamedkent7 <ArrowUpRight size={18} aria-hidden="true" />
+            </a>
+            <a href="/resume.pdf" download="Kent Vincent Butaya - Resume.pdf" className="btn btn--outline btn--wide">
+              Download résumé <Download size={18} aria-hidden="true" />
+            </a>
+          </div>
+        </section>
+      </main>
+
+      <footer className="footer">
+        <span>© {new Date().getFullYear()} {site.name}</span>
+        <div className="flag" aria-hidden="true">
+          {Array.from({ length: 16 }, (_, i) => (
+            <span key={i} className={(i + Math.floor(i / 8)) % 2 === 0 ? 'on' : ''} />
+          ))}
+        </div>
+        <span>Last seen: Rockport</span>
+      </footer>
+    </>
   );
 }
