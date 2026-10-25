@@ -63,6 +63,8 @@ export const projects: Project[] = [
 ];
 
 export const experience = [
+  { date: 'Sep–Oct 2026', title: 'Full-Stack Developer (Team Lead), SPEC Business Solutions',
+    body: "Developed SPECit, the company's core business platform, including a payroll system with integrated employee time-in. Led a small team of developers and worked directly with the CEO to turn business requirements into features." },
   { date: 'Jun–Jul 2026', title: 'Full-Stack Developer Intern, Veent Apps Inc.',
     body: 'Built an HRIS platform on SvelteKit, Prisma and PostgreSQL, and a Wi-Fi authentication portal with Maya payments for Parasat Parafiber. Helped build a CRM, including migrating customer data from a legacy database to a new schema.' },
   { date: '2025', title: 'Full-Stack Developer, JRJC Rent a Car',
