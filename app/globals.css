@@ -125,6 +125,55 @@ ul { padding: 0; list-style: none; }
 }
 @keyframes reveal { from { opacity: 0; translate: 0 8px; } }
 
+/* Cards roll up into place as they enter view. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .roll {
+      animation: roll linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
+}
+/* translate/rotate, not transform, so it composes with the tilt's transform. */
+@keyframes roll { from { opacity: 0; translate: 0 80px; rotate: x 22deg; } }
+
+/* Hover tilt with glare (TiltCard). */
+.grid3d { perspective: 1400px; }
+.tilt {
+  --rx: 0deg; --ry: 0deg; --gx: 50%; --gy: 50%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(.2,.8,.2,1), border-color 0.3s;
+}
+.tilt.live { transition: transform 0.08s linear, border-color 0.3s; }
+.tilt::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(420px circle at var(--gx) var(--gy), var(--glare), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.tilt:hover { border-color: var(--acc); }
+.tilt:hover::after { opacity: 1; }
+.lift { transform: translateZ(34px); }
+.lift2 { transform: translateZ(56px); }
+@media (prefers-reduced-motion: no-preference) {
+  .tilt { transform: rotateX(var(--rx)) rotateY(var(--ry)); }
+}
+
+/* Magnetic CTA */
+.magnet { transition: translate 0.5s cubic-bezier(.2,.8,.2,1), background 0.2s; }
+.magnet.live { transition: translate 0.1s linear, background 0.2s; }
+.btn--big { min-height: 64px; font-size: 18px; }
+
+/* Lenis (lenis/dist/lenis.css, which the package does not export) */
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
 /* ---------- nav ---------- */
 .nav {
   position: sticky;
@@ -362,26 +411,51 @@ ul { padding: 0; list-style: none; }
 .project--featured .project-title { font-size: 56px; }
 .project--featured .project-text { max-width: 520px; font-size: 18px; }
 
-/* ---------- experience ---------- */
-.experience { flex-direction: row; gap: 80px; }
-.experience-head { width: 400px; flex-shrink: 0; }
-.experience-list { flex: 1; min-width: 0; border-bottom: 1px solid var(--line); }
-.experience-row { display: flex; gap: 40px; padding: 36px 0; border-top: 1px solid var(--line); }
-.experience-date {
-  width: 160px;
-  flex-shrink: 0;
-  padding-top: 8px;
-  font-family: var(--font-mono), monospace;
-  font-size: 14px;
-  color: var(--t3);
+/* ---------- experience: sticky stacked cards ---------- */
+.exp-stack { display: flex; flex-direction: column; gap: 28px; }
+.exp-card {
+  position: sticky;
+  min-height: 340px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 32px;
+  padding: clamp(28px, 4vw, 52px);
+  border: 1px solid var(--line2);
+  transform-origin: top center;
+  will-change: transform;
 }
-.experience-title { font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 34px; line-height: 1.1; }
-.experience-text { font-size: 17px; line-height: 1.6; color: var(--t2); }
+.exp-side, .exp-main { display: flex; flex-direction: column; gap: 14px; }
+.exp-main { justify-content: flex-end; }
+.exp-date { font-family: var(--font-mono), monospace; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--acc); }
+.exp-num {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(72px, 10vw, 140px);
+  line-height: 0.85;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--out);
+}
+.exp-title { font-weight: 600; font-size: 24px; line-height: 1.3; }
+.exp-text { font-size: 17px; line-height: 1.7; color: var(--t2); }
 
-/* ---------- stack ---------- */
-.stack-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
-.stack-card { display: flex; flex-direction: column; gap: 20px; padding: 32px; }
-.stack-card ul { display: flex; flex-direction: column; gap: 10px; font-size: 18px; }
+/* ---------- stack: velocity marquee ---------- */
+.section--stack { padding-left: 0; padding-right: 0; overflow: hidden; }
+.stack-head { display: flex; flex-direction: column; gap: 32px; padding: 0 var(--gutter); }
+.stack-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; font-size: 15px; color: var(--t2); }
+.stack-list div { display: flex; flex-direction: column; gap: 6px; padding-top: 14px; border-top: 1px solid var(--line); }
+.stack-list dt { font-family: var(--font-mono), monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--t4); }
+.marq-box { display: flex; flex-direction: column; gap: 20px; }
+.marq { display: flex; gap: 48px; width: max-content; will-change: transform; }
+.marq span {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(56px, 9vw, 132px);
+  line-height: 1;
+  white-space: nowrap;
+}
+.marq .out { color: transparent; -webkit-text-stroke: 1.5px var(--out2); }
+.marq .hot { color: var(--hot); }
 
 /* ---------- contact ---------- */
 .contact {
@@ -409,8 +483,14 @@ ul { padding: 0; list-style: none; }
   font-size: 13px;
   color: var(--t4);
 }
-.flag { display: grid; grid-template-columns: repeat(8, 8px); grid-template-rows: repeat(2, 8px); }
-.flag .on { background: var(--t1); }
+.flag {
+  width: 224px;
+  height: 28px;
+  background-image: repeating-conic-gradient(var(--t1) 0 25%, var(--bg) 0 50%);
+  background-size: 28px 28px;
+  animation: flag 2.4s linear infinite;
+}
+@keyframes flag { to { background-position: 56px 0; } }
 
 /* ---------- desktop 1200+: hero name scales down with the text column ---------- */
 @media (max-width: 1439px) {
@@ -425,9 +505,6 @@ ul { padding: 0; list-style: none; }
   .brand-short { display: inline; }
   .project--featured { flex-direction: column; }
   .project--featured .project-shot { width: auto; height: 320px; border-left: 0; border-top: 1px solid var(--line); order: 1; }
-  .stack-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .experience { flex-direction: column; gap: 32px; }
-  .experience-head { width: auto; }
   .contact { flex-direction: column; align-items: stretch; padding: 56px; }
   .contact-actions { width: auto; }
 }
@@ -485,25 +562,22 @@ ul { padding: 0; list-style: none; }
   .project-text, .project--featured .project-text { font-size: 16px; }
   .tag { font-size: 12px; }
 
-  .experience-row { flex-direction: column; gap: 8px; padding: 24px 0; }
-  .experience-date { width: auto; padding-top: 0; font-size: 12px; }
-  .experience-title { font-size: 24px; }
-  .experience-text { font-size: 16px; }
 
-  .stack-grid { gap: 12px; }
-  .stack-card { padding: 20px; gap: 14px; }
-  .stack-card ul { font-size: 16px; }
 
   .contact { padding: 32px 24px; gap: 32px; }
   .contact-sub { font-size: 26px; }
   .contact-text { font-size: 17px; }
 
   .footer { margin-top: 72px; padding: 24px var(--gutter); flex-wrap: wrap; }
-  .flag { display: none; }
+  .flag { width: 140px; height: 20px; background-size: 20px 20px; }
+  .stack-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .exp-text { font-size: 16px; }
+  .exp-title { font-size: 21px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .flag { animation: none; }
   .project-shot img { transition: none; }
   .project:hover .project-shot img { transform: none; }
 }

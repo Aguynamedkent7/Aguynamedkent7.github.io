@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Saira_Condensed, IBM_Plex_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
+import SmoothScroll from './components/motion/SmoothScroll';
 
 const display = Saira_Condensed({
   weight: ['500', '600', '700', '800'], subsets: ['latin'], variable: '--font-display',
@@ -26,7 +27,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
-      <body>{children}</body>
+      <body>
+        <SmoothScroll />
+        {children}
+      </body>
     </html>
   );
 }

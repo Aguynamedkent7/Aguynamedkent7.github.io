@@ -13,13 +13,13 @@ Acceptance: site builds and looks the same as before apart from the new colours;
 
 ## Phase 1: Motion primitives below the hero
 
-- [ ] `SmoothScroll.tsx`: Lenis synced to GSAP's ticker and ScrollTrigger; disabled with reduced motion; anchor links (`#work` etc.) scroll through Lenis with the nav height as offset.
-- [ ] `TiltCard.tsx` and use it for project and stack cards (PLAN.md section 7).
-- [ ] Featured Karsayo card spanning the full row.
-- [ ] `StackedCards.tsx` for Experience.
-- [ ] `useScrollVelocity.ts` + `VelocityMarquee.tsx` for Tech stack, plus a visible text list.
-- [ ] `MagneticButton.tsx` for "Email me".
-- [ ] Animated checkered footer strip.
+- [x] `SmoothScroll.tsx`: Lenis synced to GSAP's ticker and ScrollTrigger; disabled with reduced motion; anchor links (`#work` etc.) scroll through Lenis with the nav height as offset.
+- [x] `TiltCard.tsx` and use it for project and stack cards (PLAN.md section 7).
+- [x] Featured Karsayo card spanning the full row.
+- [x] `StackedCards.tsx` for Experience.
+- [x] `useScrollVelocity.ts` + `VelocityMarquee.tsx` for Tech stack, plus a visible text list.
+- [x] `MagneticButton.tsx` for "Email me".
+- [x] Animated checkered footer strip.
 
 Acceptance: each effect works with a mouse, does nothing harmful on touch, and is fully off with reduced motion; no layout shift; mobile menu still works.
 

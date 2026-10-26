@@ -1,6 +1,10 @@
 import Image from 'next/image';
 import { ArrowRight, ArrowUpRight, Download } from 'lucide-react';
 import Nav from './Nav';
+import TiltCard from './components/motion/TiltCard';
+import StackedCards from './components/motion/StackedCards';
+import VelocityMarquee from './components/motion/VelocityMarquee';
+import MagneticButton from './components/motion/MagneticButton';
 import { site, highlights, projects, experience, stack, type Project } from './content';
 
 function GitHubIcon() {
@@ -45,18 +49,18 @@ function ProjectLinks({ p }: { p: Project }) {
 function ProjectCard({ p }: { p: Project }) {
   const variant = p.featured ? 'featured' : p.image ? 'image' : 'text';
   return (
-    <article className={`card project project--${variant} reveal`}>
+    <TiltCard max={p.featured ? 5 : 9} className={`card project project--${variant} roll`}>
       {p.image && (
-        <div className="project-shot">
+        <div className="project-shot lift">
           <Image src={p.image} alt={`${p.name} screenshot`} width={1200} height={750} />
         </div>
       )}
       <div className="project-body">
-        <div className="project-meta">
+        <div className="project-meta lift2">
           <span className={p.featured ? 'pos pos--solid' : 'pos'}>{p.pos}</span>
           <span>{p.category.toUpperCase()}</span>
         </div>
-        <h3 className="project-title">{p.name}</h3>
+        <h3 className="project-title lift">{p.name}</h3>
         <p className="project-text">{p.body}</p>
         <div className="project-foot">
           <div className="tags">
@@ -65,9 +69,12 @@ function ProjectCard({ p }: { p: Project }) {
           <ProjectLinks p={p} />
         </div>
       </div>
-    </article>
+    </TiltCard>
   );
 }
+
+const stackWords = (groups: string[]) =>
+  stack.filter((s) => groups.includes(s.group)).flatMap((s) => s.items);
 
 export default function Home() {
   return (
@@ -129,42 +136,29 @@ export default function Home() {
         <section id="work" className="section">
           <SectionHeader label="S1 / STARTING GRID" title="Projects"
             intro="My own products and client builds, lined up by where they'd start on the grid." />
-          <div className="project-grid">
+          <div className="project-grid grid3d">
             {projects.map((p) => <ProjectCard key={p.pos} p={p} />)}
           </div>
         </section>
 
         {/* EXPERIENCE */}
-        <section id="experience" className="section experience">
-          <div className="experience-head stack-14">
-            <span className="label">S2 / RACE HISTORY</span>
-            <h2 className="h2">Experience</h2>
-          </div>
-          <div className="experience-list">
-            {experience.map((e) => (
-              <div key={e.title} className="experience-row reveal">
-                <span className="experience-date">{e.date.toUpperCase()}</span>
-                <div className="stack-10">
-                  <h3 className="experience-title">{e.title}</h3>
-                  <p className="experience-text">{e.body}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+        <section id="experience" className="section">
+          <SectionHeader label="S2 / RACE HISTORY" title="Experience" />
+          <StackedCards items={experience} />
         </section>
 
         {/* STACK */}
-        <section id="stack" className="section">
-          <SectionHeader label="S3 / SETUP SHEET" title="Tech stack"
-            intro="What I reach for, tuned over real projects rather than tutorials." />
-          <div className="stack-grid">
-            {stack.map((s, i) => (
-              <div key={s.group} className="card stack-card reveal">
-                <span className="caption">0{i + 1} / {s.group.toUpperCase()}</span>
-                <ul>{s.items.map((it) => <li key={it}>{it}</li>)}</ul>
-              </div>
-            ))}
+        <section id="stack" className="section section--stack">
+          <div className="stack-head">
+            <SectionHeader label="S3 / SETUP SHEET" title="Tech stack"
+              intro="What I reach for, tuned over real projects rather than tutorials." />
+            <dl className="stack-list">
+              {stack.map((s) => (
+                <div key={s.group}><dt>{s.group}</dt><dd>{s.items.join(', ')}</dd></div>
+              ))}
+            </dl>
           </div>
+          <VelocityMarquee rows={[stackWords(['Frontend', 'Backend']), stackWords(['Data', 'Tooling'])]} />
         </section>
 
         {/* CONTACT */}
@@ -179,9 +173,9 @@ export default function Home() {
             </p>
           </div>
           <div className="contact-actions">
-            <a href={`mailto:${site.email}`} className="btn btn--solid btn--wide">
+            <MagneticButton href={`mailto:${site.email}`} className="btn btn--solid btn--wide btn--big">
               Email me <ArrowRight size={18} aria-hidden="true" />
-            </a>
+            </MagneticButton>
             <a href={site.github} target="_blank" rel="noopener noreferrer" className="btn btn--outline btn--wide">
               github.com/Aguynamedkent7 <ArrowUpRight size={18} aria-hidden="true" />
             </a>
@@ -194,11 +188,7 @@ export default function Home() {
 
       <footer className="footer">
         <span>© {new Date().getFullYear()} {site.name}</span>
-        <div className="flag" aria-hidden="true">
-          {Array.from({ length: 16 }, (_, i) => (
-            <span key={i} className={(i + Math.floor(i / 8)) % 2 === 0 ? 'on' : ''} />
-          ))}
-        </div>
+        <div className="flag" aria-hidden="true" />
         <span>Last seen: Rockport</span>
       </footer>
     </>
