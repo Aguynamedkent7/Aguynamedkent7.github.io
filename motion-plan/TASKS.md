@@ -81,6 +81,6 @@ Acceptance: targets met; no horizontal scroll at 360px wide.
 
 ## Phase 8: Tests and deploy
 
-- [ ] Playwright smoke tests: page loads; hero has either a canvas or the poster; all section ids exist (`work`, `experience`, `stack`, `contact`); all seven project names appear in the DOM; with `reducedMotion: 'reduce'` the poster renders and the hero is not pinned.
-- [ ] `npm run build` produces the static export; check the deploy workflow still passes.
-- [ ] Update the OG image only if the owner asks.
+- [x] Playwright smoke tests: page loads; hero has either a canvas or the poster; all section ids exist (`work`, `experience`, `stack`, `contact`); all seven project names appear in the DOM; with `reducedMotion: 'reduce'` the poster renders and the hero is not pinned.
+- [x] `npm run build` produces the static export; check the deploy workflow still passes.
+- [ ] Update the OG image only if the owner asks. (Not asked; unchanged.)
