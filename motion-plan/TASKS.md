@@ -25,48 +25,48 @@ Acceptance: each effect works with a mouse, does nothing harmful on touch, and i
 
 ## Phase 2: Hero shell (no 3D yet)
 
-- [ ] `RaceHero.tsx`: pinned section (420vh / 360vh), stage `100svh`, ScrollTrigger progress in a ref.
-- [ ] Intro overlay with the H1 rise animation; fades out over p 0 to 0.06.
-- [ ] `RaceCaption.tsx` driven by a temporary fake sector (`floor(p / 0.8 · 7)`), fades in over p 0.03 to 0.08, switches to the overview text when p > 0.88.
-- [ ] Track map panel with an empty canvas; "Skip the lap" link.
-- [ ] `RacePoster.tsx` with the SVG circuit outline (from `reference/circuit.json`) and the project list; used for reduced motion.
-- [ ] Remove the old hero and driver card from `page.tsx`; keep the highlights row after the hero.
+- [x] `RaceHero.tsx`: pinned section (420vh / 360vh), stage `100svh`, ScrollTrigger progress in a ref.
+- [x] Intro overlay with the H1 rise animation; fades out over p 0 to 0.06.
+- [x] `RaceCaption.tsx` driven by a temporary fake sector (`floor(p / 0.8 · 7)`), fades in over p 0.03 to 0.08, switches to the overview text when p > 0.88.
+- [x] Track map panel with an empty canvas; "Skip the lap" link.
+- [x] `RacePoster.tsx` with the SVG circuit outline (from `reference/circuit.json`) and the project list; used for reduced motion.
+- [x] Remove the old hero and driver card from `page.tsx`; keep the highlights row after the hero.
 
 Acceptance: scrolling through the hero pins correctly, the caption cycles through all seven projects with correct copy and links, then shows the overview text; nothing is pinned with reduced motion. **Stop here for review.**
 
 ## Phase 3: Scene foundation
 
-- [ ] `next/dynamic` import of the scene with `ssr: false`; poster stays until the first frame renders, then crossfades.
-- [ ] `createRaceScene.ts` with renderer settings, resize handling, render loop that pauses off screen and when the tab is hidden, and full `dispose()`.
-- [ ] `circuit.ts`: curve, 1400 frames, track and apron ribbons, kerbs, floodlights, start/finish strip and gantry, ground and grid.
-- [ ] Lighting, fog, tone mapping as in PLAN.md 6.3.
-- [ ] `quality.ts` tiers.
+- [x] `next/dynamic` import of the scene with `ssr: false`; poster stays until the first frame renders, then crossfades.
+- [x] `createRaceScene.ts` with renderer settings, resize handling, render loop that pauses off screen and when the tab is hidden, and full `dispose()`.
+- [x] `circuit.ts`: curve, 1400 frames, track and apron ribbons, kerbs, floodlights, start/finish strip and gantry, ground and grid.
+- [x] Lighting, fog, tone mapping as in PLAN.md 6.3.
+- [x] `quality.ts` tiers.
 
 Acceptance: a static camera view of the circuit renders at 60fps on a mid-range laptop; no console errors; unmount and remount (navigate away and back, or hot reload) leaks no WebGL contexts.
 
 ## Phase 4: Car and chase camera
 
-- [ ] `car.ts` from the prototype's `buildCar`, including roundels, lights, glow sprites, wheels.
-- [ ] Car moves by scroll with the dwell mapping and easing (PLAN.md 6.2); wheel spin, steering, roll, pitch, idle shake.
-- [ ] `camera.ts` chase camera with mouse sway, velocity lift and FOV widening.
-- [ ] Shadow-casting sun that follows the car; headlight spot; under-car light; taillight trails.
+- [x] `car.ts` from the prototype's `buildCar`, including roundels, lights, glow sprites, wheels.
+- [x] Car moves by scroll with the dwell mapping and easing (PLAN.md 6.2); wheel spin, steering, roll, pitch, idle shake.
+- [x] `camera.ts` chase camera with mouse sway, velocity lift and FOV widening.
+- [x] Shadow-casting sun that follows the car; headlight spot; under-car light; taillight trails.
 
 Acceptance: scrolling forward and back moves the car smoothly both ways; no camera snapping; stopping the scroll lets the car settle; trails do not streak when the car is stationary.
 
 ## Phase 5: Project screens and sectors
 
-- [ ] `boards.ts`: seven screens at the specified positions, sizes and facing; screenshot textures for Karsayo, HRIS and Wi-Fi portal; generated title cards for the rest (redrawn after fonts load).
-- [ ] Real sector from the car position replaces the fake one from Phase 2; `setState` only on change.
-- [ ] Active screen highlight and look bias toward the screen ahead.
-- [ ] Hover raycast and click to open the project link.
+- [x] `boards.ts`: seven screens at the specified positions, sizes and facing; screenshot textures for Karsayo, HRIS and Wi-Fi portal; generated title cards for the rest (redrawn after fonts load).
+- [x] Real sector from the car position replaces the fake one from Phase 2; `setState` only on change.
+- [x] Active screen highlight and look bias toward the screen ahead.
+- [x] Hover raycast and click to open the project link.
 
 Acceptance: every screenshot is clearly readable for at least a moment as the car passes; the caption always matches the screen being passed.
 
 ## Phase 6: Crane to overview and track map
 
-- [ ] Crane phase: camera blend to the overview, fog density easing, screens rising, scaling up and turning to face the camera, slow idle lapping.
-- [ ] `trackMap.ts` drawing outline, lap progress, numbered markers and the car each frame.
-- [ ] Caption overview state.
+- [x] Crane phase: camera blend to the overview, fog density easing, screens rising, scaling up and turning to face the camera, slow idle lapping.
+- [x] `trackMap.ts` drawing outline, lap progress, numbered markers and the car each frame.
+- [x] Caption overview state.
 
 Acceptance: at the end of the pin the whole circuit and all seven screens are visible and readable at 1440 × 900 and at 390 × 844; scrolling back up returns smoothly to the chase. **Stop here for review.**
 
