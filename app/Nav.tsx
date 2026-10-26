@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { site } from './content';
+import { getLenis } from './components/motion/SmoothScroll';
 
 const links = ['work', 'experience', 'stack', 'contact'];
 
@@ -11,6 +12,7 @@ export default function Nav() {
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
+    if (open) getLenis()?.stop(); else getLenis()?.start();
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
