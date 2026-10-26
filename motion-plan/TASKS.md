@@ -4,10 +4,10 @@ Work in order. After every phase: `npm run build` passes (static export), `npm r
 
 ## Phase 0: Setup and tokens
 
-- [ ] Install `three`, `@types/three`, `gsap`, `lenis`.
-- [ ] Replace the `:root` tokens in `app/globals.css` with the Gulf night block from `reference/tokens.css`. Map old token names to the new roles (old `--accent` usages: structural ones to `--acc`, meaningful ones to `--hot`, per PLAN.md section 8).
-- [ ] Create `app/components/race/scene/palette.ts` with the same values for the scene.
-- [ ] Add `useReducedMotion.ts`.
+- [x] Install `three`, `@types/three`, `gsap`, `lenis`.
+- [x] Replace the `:root` tokens in `app/globals.css` with the Gulf night block from `reference/tokens.css`. Map old token names to the new roles (old `--accent` usages: structural ones to `--acc`, meaningful ones to `--hot`, per PLAN.md section 8).
+- [x] Create `app/components/race/scene/palette.ts` with the same values for the scene.
+- [x] Add `useReducedMotion.ts`.
 
 Acceptance: site builds and looks the same as before apart from the new colours; labels and links are blue, the name highlight and primary buttons are orange; contrast spot-checked.
 
