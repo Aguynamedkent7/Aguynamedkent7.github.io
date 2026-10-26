@@ -12,9 +12,6 @@ let lenis: Lenis | null = null;
 /** The running Lenis instance, or null with reduced motion / before mount. */
 export const getLenis = () => lenis;
 
-const navOffset = () =>
-  -parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h') || '0');
-
 /** Lenis smooth scrolling synced to GSAP's ticker and ScrollTrigger. Mounted once in layout. */
 export default function SmoothScroll() {
   useEffect(() => {
@@ -27,8 +24,8 @@ export default function SmoothScroll() {
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
 
-    // In-page anchors scroll through Lenis, clearing the fixed nav. force: the mobile
-    // menu stops Lenis while it is open, and its links close it on the same click.
+    // In-page anchors scroll through Lenis (which applies html's scroll-padding-top for the
+    // fixed nav). force: the mobile menu stops Lenis while open, and its links close it.
     const onClick = (e: MouseEvent) => {
       const a = (e.target as Element).closest?.('a[href^="#"]');
       const id = a?.getAttribute('href')?.slice(1);
@@ -37,7 +34,7 @@ export default function SmoothScroll() {
       if (!el && id !== 'top') return;
       e.preventDefault();
       l.start();
-      l.scrollTo(el ?? 0, { offset: el && id !== 'top' ? navOffset() : 0, force: true });
+      l.scrollTo(el ?? 0, { force: true });
       history.replaceState(null, '', `#${id}`);
     };
     document.addEventListener('click', onClick);

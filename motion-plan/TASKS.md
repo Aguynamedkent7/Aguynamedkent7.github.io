@@ -72,10 +72,10 @@ Acceptance: at the end of the pin the whole circuit and all seven screens are vi
 
 ## Phase 7: Quality, accessibility, mobile
 
-- [ ] Low tier verified on a phone (or Chrome device emulation with CPU throttling): steady frame rate, no shadows, camera distance 10, overview height `span · 1.35`, map hidden, caption full width at the bottom.
-- [ ] Poster tier verified with reduced motion and with WebGL disabled.
-- [ ] Keyboard pass: skip link, nav, caption link, all project links, focus rings visible.
-- [ ] Lighthouse mobile: performance 85+, accessibility 95+. Fix what is below target.
+- [x] Low tier verified on a phone (or Chrome device emulation with CPU throttling): steady frame rate, no shadows, camera distance 10, overview height `span · 1.35`, map hidden, caption full width at the bottom.
+- [x] Poster tier verified with reduced motion and with WebGL disabled.
+- [x] Keyboard pass: skip link, nav, caption link, all project links, focus rings visible.
+- [x] Lighthouse mobile: performance 85+, accessibility 95+. Fix what is below target.
 
 Acceptance: targets met; no horizontal scroll at 360px wide.
 
