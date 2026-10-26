@@ -1,0 +1,59 @@
+/* Palette tokens for the Pit Lane Orbit redesign.
+   Gulf night is the chosen palette. Papaya (the previous site colours) and
+   Marshal yellow are kept for reference only.
+   Roles: --acc = structure (labels, links, kerbs, focus, hover borders).
+          --hot = meaning (the car, active screen, name, primary buttons, badges). */
+
+:root { /* Gulf night (ship this) */
+  --bg: #0A0F16;
+  --bg-a: rgb(10 15 22 / .74);   /* translucent nav */
+  --s1: #111923;
+  --s2: #17212D;
+  --line: #1E2935;
+  --line2: #26323F;
+  --line3: #34414F;
+  --t1: #EAF0F5;
+  --t2: #C3CDD7;
+  --t3: #9DAAB7;
+  --t4: #8593A1;
+  --out: #3F4D5C;                 /* outlined display numbers */
+  --out2: #4E5D6D;                /* outlined marquee words */
+  --acc: #8FD0F0;
+  --acc-hover: #B5E1F6;
+  --hot: #FF6B2C;
+  --hot-hover: #FF8A57;
+  --on-hot: #0A0F16;
+  --panel: rgb(17 25 35 / .86);   /* caption and map panels, with backdrop blur */
+  --glare: rgb(143 208 240 / .14);/* tilt card glare */
+  --e1: #111923; --e2: #141D28; --e3: #17212D; --e4: #1A2532; /* stacked experience cards */
+}
+
+/* Reference only: Papaya (previous colours) */
+.palette-papaya {
+  --bg: #0E0F11; --bg-a: rgb(14 15 17 / .72); --s1: #15171B; --s2: #1C1F24;
+  --line: #23262C; --line2: #2C2F36; --line3: #3A3E46;
+  --t1: #ECECEA; --t2: #C4C6CB; --t3: #A3A6AD; --t4: #8E929A;
+  --out: #4A4E57; --out2: #5A5F68;
+  --acc: #FF6B2C; --acc-hover: #FF8A57; --hot: #FF6B2C; --hot-hover: #FF8A57; --on-hot: #0E0F11;
+  --panel: rgb(21 23 27 / .86); --glare: rgb(255 107 44 / .16);
+  --e1: #15171B; --e2: #191B20; --e3: #1C1F24; --e4: #202329;
+}
+
+/* Reference only: Marshal yellow */
+.palette-marshal {
+  --bg: #111111; --bg-a: rgb(17 17 17 / .74); --s1: #181818; --s2: #1F1F1F;
+  --line: #262626; --line2: #2E2E2E; --line3: #3D3D3D;
+  --t1: #F2F2EE; --t2: #C8C8C2; --t3: #A5A5A0; --t4: #8F8F8A;
+  --out: #4A4A48; --out2: #5C5C59;
+  --acc: #F5D90A; --acc-hover: #FFE84D; --hot: #F5D90A; --hot-hover: #FFE84D; --on-hot: #111111;
+  --panel: rgb(24 24 24 / .86); --glare: rgb(245 217 10 / .13);
+  --e1: #181818; --e2: #1B1B1B; --e3: #1F1F1F; --e4: #222222;
+}
+
+/* Scene-side values (mirror these in app/components/race/scene/palette.ts):
+   gulf:    bg #0A0F16, ground #070B10, apron #111923, grid #1E2935 / #121A23,
+            kerbs #8FD0F0 + #EAF0F5, car paint #FF6B2C, hot #FF6B2C, acc #8FD0F0, lamp #DDEBFF
+   papaya:  bg #0E0F11, ground #0B0C0E, apron #16181C, grid #23262C / #17191D,
+            kerbs #FF6B2C + #ECECEA, car paint #FF6B2C, lamp #FFE2C4
+   marshal: bg #111111, ground #0C0C0C, apron #181818, grid #262626 / #191919,
+            kerbs #D7262B + #F2F2EE, car paint #F5D90A, lamp #FFF6D6 */
